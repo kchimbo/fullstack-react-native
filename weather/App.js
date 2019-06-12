@@ -7,13 +7,24 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      location: 'San Francisco'
+      location: ''
     };
+    // Firing off asynchronous requests in the constructor is typically an 
+    // anti-pattern. This method should usually be used to initialize state
+    // and bind methods.
+
+    // AVOID!
+    // this.handleUpdateLocation('San Francisco');
   }
   handleUpdateLocation = city => {
     this.setState({
       location: city
     });
+  }
+
+  // Set component data after the component is mounted.
+  componentDidMount() {
+    this.handleUpdateLocation('San Francisco');
   }
   render() {
     const { location } = this.state;
