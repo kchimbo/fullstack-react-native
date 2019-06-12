@@ -1,5 +1,7 @@
 import React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
+import PropTypes from 'prop-types';
+
 export default class SearchInput extends React.Component {
 	// Initialize component-specific data. 
 	// The constructor fires before our component is mounted and rendered.
@@ -68,3 +70,11 @@ const styles = StyleSheet.create({
 		color: 'white',
 	},
 });
+
+SearchInput.propTypes = {
+	onSubmit: PropTypes.func.isRequired,
+	placeholder: PropTypes.string
+};
+SearchInput.defaultProps = {
+	placeholder: '',
+};

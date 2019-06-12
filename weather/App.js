@@ -82,7 +82,7 @@ export default class App extends React.Component {
           {!loading && (
             <View>
               {error && (
-                <Text style={[style.smallText, styles.textStyle]}>
+                <Text style={[styles.smallText, styles.textStyle]}>
                   Could not load weather, please try a different city.
                 </Text>
               )}
