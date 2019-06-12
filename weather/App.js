@@ -1,10 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View, Platform } from 'react-native';
+import { StyleSheet, Text, KeyboardAvoidingView, Platform } from 'react-native';
+import SearchInput from './components/SearchInput'
 
 export default class App extends React.Component {
   render() {
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView 
+        style={styles.container}
+        behavior="padding"
+        >
         <Text style={[styles.largeText, styles.textStyle]}>
           San Francisco
         </Text>
@@ -12,7 +16,8 @@ export default class App extends React.Component {
           Light Cloud
         </Text>
         <Text style={[styles.largeText, styles.textStyle]}>24°</Text>
-      </View>
+        <SearchInput placeholder="Search any city" />
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -26,13 +31,21 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     textAlign: 'center',
-    fontFamily: 
-      Platform.OS === 'ios' ? 'AvenirNext-Regular' : 'Roboto',
+    // fontFamily: 
+      // Platform.OS === 'ios' ? 'AvenirNext-Regular' : 'Roboto',
+    ...Platform.select({
+      ios: {
+        fontFamily: 'AvenirNext-Regular'
+      },
+      android: {
+        fontFamily: 'Roboto'
+      }
+    })
   },
   largeText: {
     fontSize: 44
   },
   smallText: {
     fontSize: 18
-  }
+  },
 });
