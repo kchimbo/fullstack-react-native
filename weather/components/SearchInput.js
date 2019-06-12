@@ -71,6 +71,8 @@ const styles = StyleSheet.create({
 	},
 });
 
+// We could remove object references using static properties and define
+// the static methods within the class
 SearchInput.propTypes = {
 	onSubmit: PropTypes.func.isRequired,
 	placeholder: PropTypes.string

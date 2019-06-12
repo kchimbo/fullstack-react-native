@@ -32,6 +32,17 @@ export default class App extends React.Component {
     // AVOID!
     // this.handleUpdateLocation('San Francisco');
   }
+
+  // React native includes class properties transformation from Babel.
+  // Instead of writing the above constructor we could do...
+  state = {
+    loading: false,
+    error: false,
+    location: '',
+    temperature: 0,
+    weather: ''
+  }
+
   handleUpdateLocation = async city => {
     if (!city) return;
     this.setState({ loading: true }, async () => {
