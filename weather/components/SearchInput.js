@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
-
 export default class SearchInput extends React.Component {
 	render() {
 		return (
