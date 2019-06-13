@@ -53,6 +53,14 @@ export default class App extends React.Component {
       })
     })
   }
+
+  handleRemovePress = id => {
+    // Array.filter returns a new array with all elements that pass the test 
+    // implemented by the provided function.
+    this.setState({
+      timers: this.state.timers.filter(t => t.id !== id)
+    });
+  }
   render() {
     const { timers } = this.state;
 
@@ -75,6 +83,7 @@ export default class App extends React.Component {
                 elapsed={elapsed}
                 isRunning={isRunning}
                 onFormSubmit={this.handleFormSubmit}
+                onRemovePress={this.handleRemovePress}
               />
             ),
           )}
