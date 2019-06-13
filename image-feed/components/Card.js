@@ -25,6 +25,15 @@ export default class Card extends React.Component {
 		this.setState({ loading: false })
 	};
 
+	// FlatList re-renders our cards while we scroll.
+	// Most of the time, card's data doesn't change so we don't need to update
+	// the component after the initial render.
+	// The only time the data might change is if the number of comments to 
+	// display changes.
+	shouldComponentUpdate(nextProps) {
+		return this.props.linkText !== nextProps.linkText
+	}
+
 	render() {
 		const { fullname, image, linkText, onPressLinkText } = this.props;
 		const { loading } = this.state;
