@@ -27,6 +27,32 @@ export default class App extends React.Component {
     ]
   }
 
+  // After the component is mounted
+  componentDidMount() {
+    const TIME_INTERVAL = 1000;
+    // We capture the return value of setInterval(fn, t) to allow us to stop
+    // the interval at any point in the future using clearInterval().
+    // We want to cancel (or "clear") if the timer is ever unmounted (deleted)
+    // otherwise, it will run indefinetely and cause errors.
+    this.intervalId = setInterval(() => {
+      const { timers } = this.state;
+      this.setState({
+        timers: timers.map(timer => {
+          const { elapsed, isRunning } = timer;
+          return {
+            ...timer,
+            elapsed: isRunning ? elapsed + TIME_INTERVAL : elapsed,
+          };
+        })
+      });
+    }, TIME_INTERVAL);
+  }
+
+  // Fire before a component is unmounted or removed
+  componentWillUnmount() {
+    clearInterval(this.intervalId);
+  }
+
   handleCreateFormSubmit = timer => {
     const { timers } = this.state;
 
