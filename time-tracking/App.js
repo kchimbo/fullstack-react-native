@@ -1,6 +1,12 @@
 import React from 'react';
 
-import { StyleSheet, View, ScrollView, Text } from 'react-native';
+import { 
+  StyleSheet, 
+  View, 
+  ScrollView, 
+  Text,
+  KeyboardAvoidingView,
+} from 'react-native';
 import uuidv4 from 'uuid/v4';
 
 import EditableTimer from './components/EditableTimer';
@@ -113,6 +119,10 @@ export default class App extends React.Component {
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Timers</Text>
         </View>
+        <KeyboardAvoidingView
+          behaviour="padding"
+          style={styles.timerListContainer}
+        >
         <ScrollView style={styles.timerList}>
           <ToggleableTimerForm 
             onFormSubmit={this.handleCreateFormSubmit}
@@ -134,6 +144,7 @@ export default class App extends React.Component {
             ),
           )}
         </ScrollView>
+        </KeyboardAvoidingView>
       </View>
     );
   }
@@ -141,6 +152,9 @@ export default class App extends React.Component {
 
 const styles = StyleSheet.create({
   appContainer: {
+    flex: 1,
+  },
+  timerListContainer: {
     flex: 1,
   },
   titleContainer: {
