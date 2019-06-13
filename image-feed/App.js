@@ -1,7 +1,8 @@
 import React from 'react';
 import { Constants } from 'expo';
-import { StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View } from 'react-native';
 import CardList from './components/CardList';
+import Feed from './screens/Feed';
 
 const items = [
   { id: 0, author: 'Bob Ross' },
@@ -12,11 +13,16 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <CardList items={items} />
+        <Feed style={styles.feed} />
       </View>
     );
   }
 }
+
+const platformVersion =
+  Platform.OS === 'ios'
+    ? parseInt(Platform.Version, 10)
+    : Platform.Version
 
 // flex: 1 - the component will expand to fill its parent entirely
 // flex: 0 - the component will shrink to the minimum space possible
@@ -34,8 +40,13 @@ export default class App extends React.Component {
 // Align children along the secondary axis
 const styles = StyleSheet.create({
   container: {
-    marginTop: Constants.statusBarHeight,
     flex: 1,
     backgroundColor: '#fff',
   },
+  feed: {
+    flex: 1,
+    marginTop: 
+      Platform.OS === 'android' || platformVersion < 11 ?
+        Constants.statusBarHeight : 0
+  }
 });
