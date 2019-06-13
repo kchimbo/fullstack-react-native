@@ -1,18 +1,19 @@
 import React from 'react';
 import { Constants } from 'expo';
 import { StyleSheet, Text, View } from 'react-native';
-import AuthorRow from './components/AuthorRow';
+import Card from './components/Card';
 
 export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <AuthorRow 
+        <Card 
           fullname={'Osamu Fujimoto'} 
           linkText={'Comments'}
           onPressLinkText={() => {
             console.log('Pressed Link!');
-          }} 
+          }}
+          image={{ uri: 'https://unsplash.it/600/600' }} 
         />
       </View>
     );
