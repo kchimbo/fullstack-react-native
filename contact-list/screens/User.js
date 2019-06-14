@@ -8,6 +8,7 @@ import {
 import { MaterialIcons } from '@expo/vector-icons'
 import ContactThumbnail from '../components/ContactThumbnail';
 import colors from '../utils/colors';
+import store from '../store'
 import { fetchUserContact } from '../utils/api';
 
 export default class User extends React.Component {
@@ -36,26 +37,27 @@ export default class User extends React.Component {
 	});
 
 	state = {
-		user: [],
-		loading: true,
-		error: false,
+		user: store.getState().user,
+		loading: store.getState().isFetchingUser,
+		error: store.getState().error,
 	};
 
 	async componentDidMount() {
-		try {
-			const user = await fetchUserContact();
-
+		this.unsubscribe = store.onChange(() => 
 			this.setState({
-				user,
-				loading: false,
-				error: false
-			});
-		} catch (e) {
-			this.setState({
-				loading: false,
-				error: true
+				user: store.getState().user,
+				loading: store.getState().isFetchingUser,
+				error: store.getState().error,
 			})
-		}
+		);
+
+		const user = await fetchUserContact();
+
+		store.setState({ user, isFetchingUser: false });
+	}
+
+	componentWillUnmount() {
+		this.unsubscribe();
 	}
 
 	render() {

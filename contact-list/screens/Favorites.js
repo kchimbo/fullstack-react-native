@@ -9,6 +9,7 @@ import {
 import { MaterialIcons } from '@expo/vector-icons';
 
 import { fetchContacts } from '../utils/api';
+import store from '../store'
 import colors from '../utils/colors';
 import ContactThumbnail from '../components/ContactThumbnail';
 
@@ -28,26 +29,33 @@ export default class Favorites extends React.Component {
 	});
 
 	state = {
-		contacts: [],
-		loading: true,
-		error: false
+		contacts: store.getState().contacts,
+		loading: store.getState().isFetchingContacts,
+		error: store.getState().error,
 	};
 
 	async componentDidMount() {
-		try {
-			const contacts = await fetchContacts();
+		const contacts = this.state;
 
+		this.unsubscribe = store.onChange(() => 
 			this.setState({
-				contacts,
-				loading: false,
-				error: false
-			});
-		} catch (e) {
-			this.setState({
-				loading: false,
-				error: true
+				contacts: store.getState().contacts,
+				loading: store.getState().isFetchingContacts,
+				error: store.getState().error
+			}),
+		);
+
+		if (contacts.length === 0) {
+			const fetchedContacts = await fetchContacts();
+			store.setState({
+				contacts: fetchedContacts,
+				isFetchingContacts: false,
 			})
 		}
+	}
+
+	componentWillUnmount() {
+		this.unsubscribe();
 	}
 
 	renderFavoriteThumbnail = ({ item }) => {

@@ -10,6 +10,7 @@ import {
 import { MaterialIcons } from '@expo/vector-icons';
 import ContactListItem from '../components/ContactListItem';
 import { fetchContacts } from '../utils/api';
+import store from '../store'
 import colors from '../utils/colors'
 
 const keyExtractor = ({ phone }) => phone;
@@ -29,26 +30,35 @@ export default class Contacts extends React.Component {
 	});
 
 	state = {
-		contacts: [],
-		loading: true,
-		error: false,
+		contacts: store.getState().contacts,
+		loading: store.getState().isFetchingContacts,
+		error: store.getState().error,
 	};
 
 	async componentDidMount() {
 		try {
+			this.unsubscribe = store.onChange(() => 
+				this.setState({
+					contacts: store.getState().contacts,
+					loading: store.getState().isFetchingContacts,
+					error: store.getState().error,
+				}),
+			);
+
 			const contacts = await fetchContacts();
 
-			this.setState({
-				contacts,
-				loading: false,
-				error: false,
-			});
+			store.setState({ contacts, isFetchingContacts: false })
+
 		} catch (e) {
 			this.setState({
 				loading: false,
 				error: true
 			});
 		}
+	}
+
+	componentWillUnmount() {
+		this.unsubscribe();
 	}
 
 	renderContact = ({ item }) => {

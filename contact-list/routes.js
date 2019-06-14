@@ -2,7 +2,7 @@ import React from 'react';
 import { StackNavigator, TabNavigator, DrawerNavigator } from 'react-navigation';
 // react-native-vector-icons wrapper. 
 // Creating icons is done by using JSX to define icons components. So, we
-// imported React well.
+// imported React as well.
 import { MaterialIcons } from '@expo/vector-icons'
 
 import Contacts from './screens/Contacts';
