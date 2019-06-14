@@ -3,6 +3,7 @@ import { StackNavigator } from 'react-navigation';
 import Contacts from './screens/Contacts';
 import Profile from './screens/Profile';
 import Favorites from './screens/Favorites';
+import User from './screens/User'
 
 import colors from './utils/colors';
 
@@ -14,11 +15,11 @@ export default StackNavigator(
 		Contacts: {
 			screen: Contacts,
 		},
-		Favorites: {
-			screen: Favorites,
+		User: {
+			screen: User
 		}
 	}, 
 	{ 
-		initialRouteName: 'Favorites',
+		initialRouteName: 'User',
 	},
 );
