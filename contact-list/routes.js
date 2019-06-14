@@ -1,5 +1,5 @@
 import React from 'react';
-import { StackNavigator, TabNavigator } from 'react-navigation';
+import { StackNavigator, TabNavigator, DrawerNavigator } from 'react-navigation';
 // react-native-vector-icons wrapper. 
 // Creating icons is done by using JSX to define icons components. So, we
 // imported React well.
@@ -31,7 +31,7 @@ const ContactsScreens = StackNavigator({
 	// tabBarIcon expects a function. It will call that function will a single
 	// object that has the properties focused and tintColor
 	navigationOptions: {
-		tabBarIcon: getTabBarIcon('list')
+		drawerIcon: getTabBarIcon('list') // tabBarIcon with StackNavigator
 	}
 })
 
@@ -45,7 +45,7 @@ const FavoritesScreen = StackNavigator({
 }, {
 	initialRouteName: 'Favorites',
 	navigationOptions: {
-		tabBarIcon: getTabBarIcon('star')
+		drawerIcon: getTabBarIcon('star') // tabBarIcon with StackNavigator
 	}
 });
 
@@ -60,11 +60,11 @@ const UserScreens = StackNavigator({
 	mode: 'modal',
 	initialRouteName: 'User',
 	navigationOptions: {
-		tabBarIcon: getTabBarIcon('person')
+		drawerIcon: getTabBarIcon('person') // tabBarIcon with StackNavigator
 	}
 })
 
-export default TabNavigator(
+export default DrawerNavigator( // was TabNavigator
 	{
 		Contacts: {
 			screen: ContactsScreens,

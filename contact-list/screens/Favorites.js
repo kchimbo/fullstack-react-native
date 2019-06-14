@@ -6,16 +6,26 @@ import {
 	FlatList,
 	ActivityIndicator
 } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 
 import { fetchContacts } from '../utils/api';
+import colors from '../utils/colors';
 import ContactThumbnail from '../components/ContactThumbnail';
 
 const keyExtractor = ({ phone }) => phone;
 
 export default class Favorites extends React.Component {
-	static navigationOptions = {
+	static navigationOptions = ({ navigation: { navigate } }) => ({
 		title: 'Favorites',
-	};
+		headerLeft: (
+			<MaterialIcons
+				name="menu"
+				size={24}
+				style={{color: colors.black, marginLeft: 10 }}
+				onPress={() => navigate('DrawerToggle')}
+			/>
+		),
+	});
 
 	state = {
 		contacts: [],
