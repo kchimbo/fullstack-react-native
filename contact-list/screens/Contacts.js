@@ -62,6 +62,7 @@ export default class Contacts extends React.Component {
 							renderItem={this.renderContact}
 						/>
 					)}
+			</View>
 		);
 	}
 }
