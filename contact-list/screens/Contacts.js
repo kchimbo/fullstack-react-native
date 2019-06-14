@@ -4,12 +4,14 @@ import {
 	Text,
 	View,
 	FlatList,
-	ActivityIndicator
+	ActivityIndicator,
+	Linking
 } from 'react-native';
 
 import { MaterialIcons } from '@expo/vector-icons';
 import ContactListItem from '../components/ContactListItem';
 import { fetchContacts } from '../utils/api';
+import getURLParams from '../utils/getURLParams';
 import store from '../store'
 import colors from '../utils/colors'
 
@@ -35,6 +37,24 @@ export default class Contacts extends React.Component {
 		error: store.getState().error,
 	};
 
+	handleOpenUrl = (event) => {
+		const { navigation: { navigate } } = this.props;
+		const { url } = event;
+		const params = getURLParams(url);
+
+		if (params.name) {
+			console.log(`Received deep linking event with name: ${param.name}`);
+			const queriedContact = store.getState().contacts.find(
+				contact => 
+					contact.name.split(' ')[0].toLowerCase() ===
+						params.name.toLowerCase()
+				);
+			if (queriedContact) {
+				navigate('Profile', { id: queriedContact.id } );
+			}
+		}
+	}
+
 	async componentDidMount() {
 		try {
 			this.unsubscribe = store.onChange(() => 
@@ -49,6 +69,19 @@ export default class Contacts extends React.Component {
 
 			store.setState({ contacts, isFetchingContacts: false })
 
+			// For instance, when the app is running in the background, we can
+			// listen to URL events and provide a callback to handle these 
+			// situations.
+			Linking.addEventListener('url', this.handleOpenUrl)
+
+			// getInitialURL will fire when a URI asociated with the app is
+			// accessed externally. This method allows a user to deep link
+			// to a particular part of the application when the app is closed
+			// and not running in the background.
+			// IN here, we pass the url obtainer to a handleOpenUrl method.
+			const url = await Linking.getInitialURL();
+			this.handleOpenUrl({ url });
+
 		} catch (e) {
 			this.setState({
 				loading: false,
@@ -58,6 +91,7 @@ export default class Contacts extends React.Component {
 	}
 
 	componentWillUnmount() {
+		Linking.removeEventListener('url', this.handleOpenUrl);
 		this.unsubscribe();
 	}
 
