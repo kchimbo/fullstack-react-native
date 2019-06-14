@@ -5,19 +5,27 @@ import {
 	View,
 	ActivityIndicator
 } from 'react-native';
-
+import { MaterialIcons } from '@expo/vector-icons'
 import ContactThumbnail from '../components/ContactThumbnail';
 import colors from '../utils/colors';
 import { fetchUserContact } from '../utils/api';
 
 export default class User extends React.Component {
-	static navigationOptions = {
+	static navigationOptions = ({ navigation: { navigate } }) =>({
 		title: 'Me',
 		headerTintColor: 'white',
 		headerStyle: {
 			backgroundColor: colors.blue
 		},
-	};
+		headerRight: (
+			<MaterialIcons
+				name="settings"
+				size={24}
+				style={{ color: 'white', marginRight: 10 }}
+				onPress={() => navigate('Options')}
+			/>
+		),
+	});
 
 	state = {
 		user: [],
