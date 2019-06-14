@@ -13,6 +13,11 @@ import { fetchContacts } from '../utils/api';
 const keyExtractor = ({ phone }) => phone;
 
 export default class Contacts extends React.Component {
+	// We can define the navigations options inside each component.
+	static navigationOptions = {
+		title: 'Contacts'
+	};
+
 	state = {
 		contacts: [],
 		loading: true,
