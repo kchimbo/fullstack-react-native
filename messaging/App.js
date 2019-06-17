@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import Status from './components/Status'
 import MessageList from './components/MessageList';
+import Toolbar from './components/Toolbar';
 import { createImageMessage, createLocationMessage, createTextMessage } from './utils/MessageUtils';
 
 export default class App extends React.Component {
@@ -25,6 +26,7 @@ export default class App extends React.Component {
       }),
     ],
     fullscreenImageId: null,
+    isInputFocused: false,
   }
 
   componentWillMount() {
@@ -44,8 +46,44 @@ export default class App extends React.Component {
     this.subscription.remove();
   }
 
+  handlePressToolbarCamera = () => {
+    // ...
+  }
+
+  handlePressToolbarLocation = () => {
+    // ...
+  }
+
+  handleChangeFocus = (isFocused) => {
+    this.setState({ isInputFocused: isFocused })
+  }
+
+  handleSubmit = (text) => {
+    const { messages } = this.state;
+
+    this.setState({
+      messages: [createTextMessage(text), ...messages]
+    });
+  }
+
   dismissFullscreenImage = () => {
     this.setState({ fullscreenImageId: null });
+  }
+
+  renderToolbar() {
+    const { isInputFocused } = this.state;
+
+    return (
+      <View style={styles.toolbar}>
+        <Toolbar
+          isFocused={isInputFocused}
+          onSubmit={this.handleSubmit}
+          onChangeFocus={this.handleChangeFocus}
+          onPressCamera={this.handlePressToolbarCamera}
+          onPressLocation={this.handlePressToolbarLocation}
+        />  
+      </View>
+    );
   }
 
   renderFullscreenImage = () => {
