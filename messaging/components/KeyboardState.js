@@ -116,7 +116,7 @@ export default class KeyboardState extends React.Component {
 	keyboardDidHide = () => {
 		this.setState({
 			keybordWillHide: false,
-			keyboardDidHide: false
+			keyboardVisible: false
 		});
 	}
 
