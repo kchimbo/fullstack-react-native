@@ -19,10 +19,10 @@ export default class MeasureLayout extends React.Component {
 		this.setState({
 			layout: {
 				...layout,
-			},
-			y: 
-				layout.y +
-				(Platform.OS === 'android' ? Constants.statusBarHeight : 0),
+  			y: 
+  				layout.y +
+  				(Platform.OS === 'android' ? Constants.statusBarHeight : 0),
+      }
 		});
 	};
 
@@ -47,6 +47,6 @@ export default class MeasureLayout extends React.Component {
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1
-	}
-})
+		flex: 1,
+	},
+});
