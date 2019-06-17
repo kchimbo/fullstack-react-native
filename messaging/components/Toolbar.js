@@ -8,11 +8,11 @@ import {
 import PropTypes from 'prop-types'; 
 import React from 'react';
 
-const ToolbarButton = ({ title, onPress }) => {
+const ToolbarButton = ({ title, onPress }) => (
 	<TouchableOpacity onPress={onPress}>
 		<Text style={styles.button}>{title}</Text>
 	</TouchableOpacity>
-};
+);
 
 ToolbarButton.propTypes = {
 	title: PropTypes.string.isRequired,
@@ -52,7 +52,7 @@ export default class Toolbar extends React.Component {
 	}
 
 	handleFocus = () => {
-		const { onChangeFocus } = = this.props;
+		const { onChangeFocus } = this.props;
 		onChangeFocus(true);
 	}
 
@@ -79,7 +79,7 @@ export default class Toolbar extends React.Component {
 		this.setState({ text: '' });
 	}
 	render() { 
-		const { onPressCamera, onPressLocation} = this.props;
+		const { onPressCamera, onPressLocation } = this.props;
 		const { text } = this.state;
 		// blurOnSubmit - keyboard isn't dismissed when the user presses the return key.
 		//
@@ -88,8 +88,8 @@ export default class Toolbar extends React.Component {
 		// We use handle{Blur, Focus} to notify the parent of changes to the focus state.
 		return (
 			<View style={styles.toolbar}> 
-				<ToolbarButton title={'C'} onPress={onPressCamera} />
-				<ToolbarButton title={'L'} onPress={onPressLocation} />
+				<ToolbarButton title={'📷'} onPress={onPressCamera} />
+				<ToolbarButton title={'📍'} onPress={onPressLocation} />
 				<View style={styles.inputContainer}>
 					<TextInput
 						style={styles.input}
@@ -99,12 +99,12 @@ export default class Toolbar extends React.Component {
 						value={text}
 						onChangeText={this.handleChangeText}
 						onSubmitEditing={this.handleSubmitEditing}
-
 						ref={this.setInputRef}
 						onFocus={this.handleFocus}
 						onBlur={this.handleBlur}
 					/>
 			</View> 
+		</View>
 		);
 	} 
 }
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
 	button: {
 		top: -2,
 		marginRight: 12,
-		fontSize; 20,
+		fontSize: 20,
 		color: 'grey',
 	},
 	inputContainer: {
