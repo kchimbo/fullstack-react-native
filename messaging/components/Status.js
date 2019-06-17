@@ -34,7 +34,7 @@ export default class Status extends React.Component {
 
 		this.setState({ isConnected })
 
-		setTimeout(() => this.handleChange(false), 3000);
+		// setTimeout(() => this.handleChange(false), 3000);
 	}
 
 	componentWillUnmount() {
