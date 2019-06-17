@@ -51,6 +51,15 @@ export default class App extends React.Component {
     // ...
   }
 
+  handlePressImage = (uri) => {
+    const { messages } = this.state;
+
+    this.setState({
+      messages: [createImageMessage(uri), ...messages],
+    });
+
+  }
+
   handlePressToolbarLocation = () => {
     const { messages } = this.state;
     navigator.geolocation.getCurrentPosition( (position) => {
@@ -79,6 +88,8 @@ export default class App extends React.Component {
       messages: [createTextMessage(text), ...messages]
     });
   }
+
+
 
   dismissFullscreenImage = () => {
     this.setState({ fullscreenImageId: null });
@@ -174,7 +185,7 @@ export default class App extends React.Component {
   renderInputMethodEditor() {
     return (
       <View style={styles.inputMethodEditor}>
-        <ImageGrid />
+        <ImageGrid onPressImage={this.handlePressImage} />
       </View>
     );
   }
