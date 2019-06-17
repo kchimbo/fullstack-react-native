@@ -12,10 +12,39 @@ import {
 const statusHeight = 
 	(Platform.OS === 'ios') ? Constants.statusBarHeight : 0;
 
+// Imperative Approach would be:
+// - rewrite handleCHange as:
+// handleChange = (isConnected) => {
+//	this.setState({isConnected})
+// StatusBar.setBarStyle({
+//	isConnected ? 'light-content' : 'dark-content'
+// })
+// }
+// - remove StatusBar component from our render function.
+
 export default class Status extends React.Component {
 	state = {
 		isConnected: null,
 	};
+
+	async componentWillMount() {
+		NetInfo.isConnected.addEventListener('connectionChange', this.handleChange);
+
+		const isConnected = await NetInfo.isConnected.fetch();
+
+		this.setState({ isConnected })
+
+		setTimeout(() => this.handleChange(false), 3000);
+	}
+
+	componentWillUnmount() {
+		NetInfo.isConnected.removeEventListener('connectionChange', this.handleChange);
+	}
+
+	handleChange = (isConnected) => {
+		this.setState({ isConnected });
+	}
+
 
 	render() {
 		const { isConnected } = this.state;
@@ -32,7 +61,7 @@ export default class Status extends React.Component {
 			<View style={styles.messageContainer} pointerEvents={'none'}>
 				{statusBar}
 				{!isConnected && (
-					<View style={styles.buble}>
+					<View style={styles.bubble}>
 						<Text style={styles.text}>No network connection</Text>
 					</View>
 				)}
