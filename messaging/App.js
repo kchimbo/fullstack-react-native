@@ -160,11 +160,6 @@ export default class App extends React.Component {
     );
   }
 
-  renderToolbar() {
-    return (
-      <View style={styles.toolbar}></View>
-    );
-  }
   render() {
     return (
       <View style={styles.container}>
