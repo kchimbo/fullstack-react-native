@@ -64,6 +64,7 @@ export default class App extends React.Component {
   }
 
   handlePressImage = (uri) => {
+
     const { messages } = this.state;
 
     this.setState({
@@ -194,13 +195,11 @@ export default class App extends React.Component {
     );
   }
 
-  renderInputMethodEditor() {
-    return (
+  renderInputMethodEditor = () => (
       <View style={styles.inputMethodEditor}>
         <ImageGrid onPressImage={this.handlePressImage} />
       </View>
-    );
-  }
+  )
 
   render() {
     const { inputMethod } = this.state;
