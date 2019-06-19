@@ -42,8 +42,95 @@ export default class Board extends React.PureComponent {
     previousMove: null,
   };
 
+  constructor(props) {
+    super(props);
+
+    const { puzzle: { size, board } } = props;
+
+    this.state = { transitionState: State.WillTransitionIn }
+    this.animatedValues = [];
+
+    board.forEach( (square, index) => {
+
+      console.log(`${index} - ${square}`)
+      const { top, left } = calculateItemPosition(size, index);
+
+      this.animatedValues[square] = {
+        scale: new Animated.Value(1),
+        top: new Animated.Value(top),
+        left: new Animated.Value(left),
+      }
+    })
+  }
+
+  async componentDidMount() {
+    const { onTransitionIn } = this.props;
+
+    this.setState({ transitionState: State.DidTransitionIn });
+
+    onTransitionIn();
+
+  }
+
+  renderSquare = (square, index) => {
+    const { puzzle: { size, empty }, image } = this.props;
+    const { transitionState } = this.state;
+
+    if (square === empty) return null;
+
+    const itemSize = calculateItemSize(size);
+
+    const itemStyle = {
+      position: 'absolute',
+      width: itemSize,
+      height: itemSize,
+      overflow: 'hidden',
+      transform: [
+        { translateX: this.animatedValues[square].left },
+        { translateY: this.animatedValues[square].top },
+        { scale: this.animatedValues[square].scale }
+      ],
+    }
+
+    const imageStyle = {
+      position: 'absolute',
+      width: itemSize * size + (itemMargin * size - 1),
+      height: itemSize * size + (itemMargin * size - 1),
+      transform: [
+        {
+          translateX: -Math.floor(square % size) * (itemSize + itemMargin)
+        },
+        {
+          translateY: -Math.floor(square / size) * (itemSize + itemMargin)
+        }
+      ]
+    }
+
+    return (
+      <Animated.View key={square} style={itemStyle}>
+        <Image style={imageStyle} source={image} />
+      </Animated.View>
+    )
+  }
+
   render() {
-    return null;
+    const { puzzle: { board } } = this.props;
+    const { transitionState } = this.state;
+
+    const containerSize = calculateContainerSize();
+    const containerStyle = {
+      width: containerSize,
+      height: containerSize,
+    };
+
+    return (
+      <View style={[styles.container, containerStyle]}>
+        {transitionState !== State.DidTransitionOut &&
+          board.map(this.renderSquare)
+        }
+      </View>
+    );
+
   }
 }
 
