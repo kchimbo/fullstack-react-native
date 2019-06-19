@@ -56,7 +56,7 @@ export default class Game extends React.Component {
     const { transitionState } = this.state;
 
     if (image && transitionState === State.LoadingImage) {
-      configureTransitionW(() => {
+      configureTransition(() => {
         this.setState({ transitionState: State.WillTransitionIn });
       });
     }
