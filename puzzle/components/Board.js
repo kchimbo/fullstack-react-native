@@ -52,7 +52,6 @@ export default class Board extends React.PureComponent {
 
     board.forEach( (square, index) => {
 
-      console.log(`${index} - ${square}`)
       const { top, left } = calculateItemPosition(size, index);
 
       this.animatedValues[square] = {
